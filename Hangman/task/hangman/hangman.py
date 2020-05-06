@@ -1,40 +1,48 @@
 # Write your code here
 import random
 
-def word_to_print(a_list):
+
+def list_to_string(letters):
     result = ""
-    for char in a_list:
-        result = result + char
+    for letter in letters:
+        result = result + letter
     return result
+
 
 wordlist = ["python", "java", "kotlin", "javascript"]
 word = random.choice(wordlist)
 word_revealed = list("-"*len(word))
 word_letters = set(word)
+tries = 8
+guessed = set()
 
 print("H A N G M A N")
-print()
-#guess = input("Guess the word {}: ".format(word[0:3]+"-"*(len(word)-3)))
 
-for tries in range(8):
-    print(word_to_print(word_revealed))
+while tries > 0:
+    print()
+    print(list_to_string(word_revealed))
     guess = input("Input a letter: ")
     if guess in word_letters:
         word_letters.remove(guess)
+        guessed.add(guess)
         i = 0
         for char in word:
             if char not in word_letters:
                 word_revealed[i] = char
             i += 1
+    elif guess in guessed:
+        print("No improvements")
+        tries -= 1
     else:
         print("No such letter in the word")
+        tries -= 1
+    if len(word_letters) == 0:
+        break
+
+if tries == 0:
+    print("You are hanged!")
+else:
     print()
-
-print("Thanks for playing!")
-print("We'll see how well you did in the next stage")
-
-# if word == guess:
-#     print("You survived!")
-# else:
-#     print("You are hanged!")
-
+    print(word)
+    print("You guessed the word!")
+    print("You survived!")
