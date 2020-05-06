@@ -1,4 +1,6 @@
-# Write your code here
+# Hangman.py
+# Written by Natasha Graham
+# Project from JetBrains Hyperskills course
 import random
 
 
@@ -15,6 +17,7 @@ word_revealed = list("-"*len(word))
 word_letters = set(word)
 tries = 8
 guessed = set()
+alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 print("H A N G M A N")
 
@@ -22,7 +25,10 @@ while tries > 0:
     print()
     print(list_to_string(word_revealed))
     guess = input("Input a letter: ")
-    if guess in word_letters:
+    if len(guess) != 1:
+        print("You should print a single letter")
+        continue
+    elif guess in word_letters:
         word_letters.remove(guess)
         guessed.add(guess)
         i = 0
@@ -31,10 +37,14 @@ while tries > 0:
                 word_revealed[i] = char
             i += 1
     elif guess in guessed:
-        print("No improvements")
-        tries -= 1
+        print("You already typed this letter")
+        continue
+    elif guess not in alphabet:
+        print("It is not an ASCII lowercase letter")
+        continue
     else:
         print("No such letter in the word")
+        guessed.add(guess)
         tries -= 1
     if len(word_letters) == 0:
         break
